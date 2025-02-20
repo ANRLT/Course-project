@@ -13,12 +13,12 @@ namespace CourseProject.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult AdminPanel()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Index()
         {
             return View();
         }

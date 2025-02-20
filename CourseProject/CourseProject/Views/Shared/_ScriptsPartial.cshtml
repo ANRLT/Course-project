@@ -1,0 +1,78 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/i18next@21.6.3/dist/umd/i18next.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.2/i18nextBrowserLanguageDetector.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/i18next-http-backend@1.2.1/i18nextHttpBackend.min.js"></script>
+
+<script>
+    function themeSwap() {
+      var checkbox = document.getElementById('flexSwitchCheckChecked');
+      var element = document.body;
+      element.dataset.bsTheme =
+        element.dataset.bsTheme == "light" ? "dark" : "light";
+             checkbox.checked = element.dataset.bsTheme == "light" ? false : true;
+        localStorage.setItem('theme', element.dataset.bsTheme);
+    }
+        window.addEventListener('load', () => {
+      const savedTheme = localStorage.getItem('theme');
+      const checkbox = document.getElementById('flexSwitchCheckChecked');
+
+      if (savedTheme) {
+        document.body.dataset.bsTheme = savedTheme;
+        checkbox.checked = savedTheme == "dark";
+      } else {
+        // Если тема не сохранена, по умолчанию светлая
+        document.body.dataset.bsTheme = 'light';
+        checkbox.checked = false;
+      }
+    });
+</script>
+
+<script>
+    function initializeI18next() {
+      const savedLanguage = localStorage.getItem('language') || 'en';
+      i18next
+        .use(i18nextBrowserLanguageDetector)
+        .use(i18nextHttpBackend)
+        .init({
+          lng: savedLanguage,
+          fallbackLng: 'en',
+          resources: {
+            en: {
+              translation: {
+              "Adminpanel": "Admin panel",
+              "Home": "Home",
+              "Language": "Language",
+              "Search": "Search",
+              "InnerSearch": "Search"
+              }
+            },
+            ru: {
+              translation: {
+                "Adminpanel": "Панель администратора",
+              "Home": "Домашняя страница",
+              "Language": "Язык",
+              "Search": "Поиск",
+              "InnerSearch": "Поиск"
+              }
+            }
+          }
+        }, function(err, t) {
+          document.getElementById('Adminpanel').innerHTML = i18next.t('Adminpanel');
+        document.getElementById('Home').innerHTML = i18next.t('Home');
+        document.getElementById('Language').innerHTML = i18next.t('Language');
+        document.getElementById('Search').innerHTML = i18next.t('Search');
+        document.getElementById('InnerSearch').innerHTML = i18next.t('Search');
+        });
+    }
+    function changeLanguage(language) {
+      i18next.changeLanguage(language, function(err, t) {
+        localStorage.setItem('language', language);
+        document.getElementById('Adminpanel').innerHTML = t('Adminpanel');
+        document.getElementById('Home').innerHTML = t('Home');
+        document.getElementById('Language').innerHTML = t('Language');
+        document.getElementById('Search').innerHTML = t('Search');
+        document.getElementById('InnerSearch').innerHTML = t('Search');
+      });
+    }
+    initializeI18next();
+</script>
